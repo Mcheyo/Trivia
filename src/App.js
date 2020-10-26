@@ -1,13 +1,17 @@
 
 import React, { Component } from 'react'
-
+import QuestionContainer from './containers/questionContainer'
 
 class App extends Component{ 
-  state = { 
-    testing: "hello"
-  }
+ 
+
+
+
   render(){ 
-    return( <div> hi</div> )
+    return( 
+    <div> 
+      <QuestionContainer/>
+      </div> )
   }
 }
 
