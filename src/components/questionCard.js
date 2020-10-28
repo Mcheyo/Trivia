@@ -1,34 +1,56 @@
 import React from 'react'
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
+
+
 var shuffle = require('shuffle-array')
 
 
-const questionCard = (props) =>{ 
+const useStyles = makeStyles({
+ root: {
+   maxWidth: 345,
+ },
+});
+const QuestionCard = (props) =>{ 
     const {correct, incorrect, question} = props.questionData
    let  answers = [...incorrect,correct]
+   const classes = useStyles()
 
-//    function shuffleArray(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//         const j = Math.floor(Math.random() * (i + 1));
-//         [array[i], array[j]] = [array[j], array[i]];
-//     }
 
 
 
     return( 
+        
         <div>
-            <h4>{question}</h4>
-            
-
+            <Card className={classes.root}>{question}
+            </Card>
+            <ButtonGroup
+        orientation="vertical"
+        color="primary"
+        aria-label="vertical outlined primary button group"
+      >
+       
             {shuffle(answers).map(answer =>{
                 
-               return  <p onClick={(e) => e.target.innerText == correct? console.log("goodjob"): console.log("try again")}>
+               return  <Button 
+               
+               onClick={(e) => e.target.innerText.toLowerCase() == correct.toLowerCase()? props.correctAnswer(props.questionData): props.wrongAnswer(props.questionData) }
+               variant = {props.answered? 'disabled': 'contained'}
+               >
+
                     {answer}
-                </p>
+                </Button>
             })}
+           
+      </ButtonGroup>
+
         </div>
+        
     )
 
 
 }
-
-export default questionCard
+//
+export default QuestionCard

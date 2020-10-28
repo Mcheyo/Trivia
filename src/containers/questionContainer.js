@@ -1,44 +1,79 @@
 import React, { Component } from 'react'
 import QuestionCard from '../components/questionCard'
- var shuffle = require('shuffle-array')
+import Container from '@material-ui/core/Container';
 
 
 export default class questionContainer extends Component{ 
-  state ={ 
+  state = { 
         questionsArray: [],
-        quesitonToShow: {},
-        questionsAnswered: []
+        questionToShow: {},
+        questionsAnswered: [], 
+        answered: false , 
+        score: 0
+        
     }
     componentDidMount(){ 
-        fetch("http://localhost:3000/data")
-        .then(res => res.json())
-        .then(data => this.setState({
-            questionsArray: shuffle(data)
-        }))
+        
+       this.setState({ 
+           questionsArray: this.props.questionsArray, 
+           questionToShow: this.props.questionsArray[0]
+       })
        }
       
 
 
    
-    
-    // startGame = () =>{ 
-    //     let questions = [...this.state.questionsArray]
-    //    this.setState({ 
-    //        questionsArray: shuffle(questions)
-    //    })
-       
-       
-    // }
+loadQuestion = () =>{ 
+    if(this.state.questionsAnswered.length < this.state.questionsArray.length){
+   let currentQuestion =  this.state.questionsArray.find(question => !this.state.questionsAnswered.includes(question))
+   this.setState({ 
+       questionToShow: currentQuestion, answered: false
+   })
+  }
+  else{ 
+      alert("Game over")
+  }
+}
+  
+ correctAnswer =  (e) => { 
+alert("good job!")
+  this.setState ({ 
+    questionsAnswered: [...this.state.questionsAnswered, e],
+    answered: !this.state.answered, 
+    score: this.state.score + 1
+})
+ 
+    }
+
+ wrongAnswer = (e) => { 
+     
+        alert("bummer, wrong answer")
+        this.setState({ 
+            questionsAnswered: [...this.state.questionsAnswered, e],
+            answered: !this.state.answered
+    })
+
+}
 
 
     render(){ 
         return( 
+            <Container  maxWidth="sm">
             <div>
-                <button onClick={() =>this.startGame() }>
-                    Play! 
+                <button onClick={() =>this.loadQuestion() }>
+                    { this.state.questionsAnswered.length<10? 'Next Question!' : 'Start over'}
                 </button>
-              {this.state.questionsArray.map(question => <QuestionCard questionData={question}/>)}
+                <h4>
+                    Score: {this.state.score}
+                </h4>
+               {this.state.questionToShow.question? 
+               <QuestionCard questionData={this.state.questionToShow} 
+               correctAnswer={this.correctAnswer} 
+               wrongAnswer={this.wrongAnswer} 
+               answered={this.state.answered}/>
+               : null}
             </div>
+            </Container>
         )
     }
 }
