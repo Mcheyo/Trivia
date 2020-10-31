@@ -60,9 +60,9 @@ alert("good job!")
         return( 
             <Container  maxWidth="sm">
             <div>
-                <button onClick={() =>this.loadQuestion() }>
+                {/* <button onClick={() =>this.loadQuestion() }>
                     { this.state.questionsAnswered.length<10? 'Next Question!' : 'Start over'}
-                </button>
+                </button> */}
                 <h4>
                     Score: {this.state.score}
                 </h4>
@@ -70,7 +70,8 @@ alert("good job!")
                <QuestionCard questionData={this.state.questionToShow} 
                correctAnswer={this.correctAnswer} 
                wrongAnswer={this.wrongAnswer} 
-               answered={this.state.answered}/>
+               answered={this.state.answered}
+               nextQuestion = {this.loadQuestion}/>
                : null}
             </div>
             </Container>

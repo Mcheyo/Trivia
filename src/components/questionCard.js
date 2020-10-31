@@ -32,17 +32,25 @@ const QuestionCard = (props) =>{
         aria-label="vertical outlined primary button group"
       >
        
-            {shuffle(answers).map(answer =>{
-                
-               return  <Button 
-               
+            {!props.answered?
+            shuffle(answers).map( answer =>{
+              
+                //  !props.answered ?
+                  
+                   return <Button 
                onClick={(e) => e.target.innerText.toLowerCase() == correct.toLowerCase()? props.correctAnswer(props.questionData): props.wrongAnswer(props.questionData) }
-               variant = {props.answered? 'disabled': 'contained'}
+               variant =  'contained'
                >
 
                     {answer}
                 </Button>
-            })}
+            
+               })
+                : 
+                <Button onClick={() => props.nextQuestion()}>
+              Next Question! 
+                </Button>
+              }
            
       </ButtonGroup>
 
