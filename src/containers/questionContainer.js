@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import QuestionCard from '../components/questionCard'
 import Container from '@material-ui/core/Container';
+const Swal = require('sweetalert2')
 
 
 export default class questionContainer extends Component{ 
@@ -32,11 +33,29 @@ loadQuestion = () =>{
   }
   else{ 
       alert("Game over")
+      Swal.fire({
+        title: 'Game Over',
+    
+        imageUrl: 'https://media.giphy.com/media/l2JdZEIie6tRGGQy4/giphy.gif',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+      })
+
+     
+
   }
 }
   
  correctAnswer =  (e) => { 
-alert("good job!")
+    Swal.fire({
+        title: 'Correct',
+    
+        imageUrl: 'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+      })
   this.setState ({ 
     questionsAnswered: [...this.state.questionsAnswered, e],
     answered: !this.state.answered, 
@@ -47,7 +66,16 @@ alert("good job!")
 
  wrongAnswer = (e) => { 
      
-        alert("bummer, wrong answer")
+   
+     
+    Swal.fire({
+        title: 'Nice try ',
+        text: `The correct answer was ${e.correct}`,
+        imageUrl: 'https://media.giphy.com/media/m8eIbBdkJK7Go/giphy.gif',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+      })
         this.setState({ 
             questionsAnswered: [...this.state.questionsAnswered, e],
             answered: !this.state.answered
